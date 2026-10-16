@@ -42,9 +42,16 @@
       </a>
     </nav>
 
-    <a class="topbar-label login-link" routerLink="/login">
-      <span class="status-dot" aria-hidden="true"></span>
-      <span>Ingresar</span>
-    </a>
+    @if (auth.isAuthenticated()) {
+      <button class="topbar-label login-link" type="button" (click)="logout()">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Cerrar sesión</span>
+      </button>
+    } @else {
+      <a class="topbar-label login-link" routerLink="/login">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Ingresar</span>
+      </a>
+    }
   </div>
 </header>

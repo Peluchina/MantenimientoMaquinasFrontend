@@ -1,0 +1,74 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <aside class="welcome-panel">
+      <a class="brand" routerLink="/machines" aria-label="Ir al panel de gestión">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M3 21V9l9-6 9 6v12h-6v-7H9v7H3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+            <path d="M7 11h2m6 0h2M7 15h2m6 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="brand-copy"><strong>Mantenimiento</strong><small>Gestión de equipos</small></span>
+      </a>
+
+      <div class="welcome-copy">
+        <span class="eyebrow">CONTROL OPERATIVO</span>
+        <h2>Todo tu mantenimiento, en un solo lugar.</h2>
+        <p>Accede al estado de tus máquinas, registros de servicio y lecturas de temperatura.</p>
+      </div>
+
+      <div class="machine-illustration" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="machine-card">
+          <div class="machine-top"><span></span><span></span><span></span><i>EN LÍNEA</i></div>
+          <div class="machine-body">
+            <div class="gauge"><span>72°</span><small>TEMPERATURA</small><b></b></div>
+            <div class="machine-core"><div class="core-ring"><span></span></div><div class="core-lines"><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="machine-footer"><span>UNIDAD INDUSTRIAL</span><strong>MM-2048</strong></div>
+        </div>
+        <span class="spark spark-one"></span><span class="spark spark-two"></span><span class="spark spark-three"></span>
+      </div>
+
+      <div class="welcome-footer"><span class="footer-line"></span><span>Plataforma de mantenimiento</span></div>
+    </aside>
+
+    <section class="form-panel">
+      <div class="form-content">
+        <div class="mobile-brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21V9l9-6 9 6v12h-6v-7H9v7H3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7 11h2m6 0h2M7 15h2m6 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </span>
+          <strong>Mantenimiento</strong>
+        </div>
+
+        <div class="form-heading">
+          <span class="heading-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 5 6v5c0 4.5 2.9 8.2 7 10 4.1-1.8 7-5.5 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span>Acceso seguro</span>
+        </div>
+        <h1 id="login-title">Bienvenido</h1>
+        <p class="form-description">Continúa con tu cuenta de Google para acceder al panel de gestión.</p>
+
+        <div #googleButton class="google-button"></div>
+        @if (!googleClientConfigured) {
+          <p class="google-setup-hint">Configura el Google Client ID para habilitar el acceso con Google.</p>
+        }
+        @if (googleLoading) {
+          <p class="google-status" role="status">Conectando con tu cuenta de Google…</p>
+        }
+        @if (googleError) {
+          <div class="api-message" role="alert"><span>{{ googleError }}</span></div>
+        }
+
+        <div class="security-note">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.9 8.2 7 10 4.1-1.8 7-5.5 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m9.5 12 1.7 1.7 3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Tus datos se mantienen protegidos.</span>
+        </div>
+      </div>
+      <footer class="form-footer">© 2026 Mantenimiento de Máquinas</footer>
+    </section>
+  </section>
+</main>
