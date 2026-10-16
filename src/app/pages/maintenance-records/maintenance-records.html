@@ -1,0 +1,136 @@
+<main class="page-shell">
+  <section class="form-card" aria-labelledby="page-title">
+    <header class="card-header">
+      <div class="header-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M14.7 6.3a4.2 4.2 0 0 0-5.6 5.6L4 17v3h3l5.1-5.1a4.2 4.2 0 0 0 5.6-5.6L15 12l-3-3 2.7-2.7Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="m5 19 2-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div>
+        <p class="eyebrow">HISTORIAL DE SERVICIO</p>
+        <h1 id="page-title">Registrar mantenimiento</h1>
+        <p class="subtitle">Guarda el trabajo realizado, su responsable y el costo asociado.</p>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <form [formGroup]="recordForm" (ngSubmit)="submit()" novalidate>
+      <div class="section-heading">
+        <span class="section-number">01</span>
+        <div>
+          <h2>Equipo y responsable</h2>
+          <p>Selecciona la máquina atendida y quién realizó el trabajo</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="machineId">Máquina <span class="required">*</span></label>
+          <select id="machineId" formControlName="MachineId">
+            <option [ngValue]="0">Selecciona una máquina</option>
+            @for (machine of machines; track machine.machineId) {
+              <option [ngValue]="machine.machineId">{{ machine.machineName }}</option>
+            }
+          </select>
+          @if (!isLoadingOptions && machines.length === 0) {
+            <span class="field-hint">Primero registra una máquina.</span>
+          }
+          @if (recordForm.controls.MachineId.touched && recordForm.controls.MachineId.invalid) {
+            <span class="field-error">Selecciona una máquina.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="userId">Responsable <span class="required">*</span></label>
+          <select id="userId" formControlName="UserId">
+            <option [ngValue]="0">Selecciona un responsable</option>
+            @for (user of users; track user.userId) {
+              <option [ngValue]="user.userId">{{ user.firstName }} {{ user.LastName }} · {{ user.username }}</option>
+            }
+          </select>
+          @if (!isLoadingOptions && users.length === 0) {
+            <span class="field-hint">Primero registra un usuario.</span>
+          }
+          @if (recordForm.controls.UserId.touched && recordForm.controls.UserId.invalid) {
+            <span class="field-error">Selecciona un responsable.</span>
+          }
+        </div>
+      </div>
+
+      <div class="section-heading section-heading-spaced">
+        <span class="section-number">02</span>
+        <div>
+          <h2>Detalle del mantenimiento</h2>
+          <p>Describe la intervención y registra su fecha y costo</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="maintenanceType">Tipo de mantenimiento <span class="required">*</span></label>
+          <input id="maintenanceType" type="text" formControlName="MaintenanceType" placeholder="Ej. Preventivo, correctivo" />
+          @if (recordForm.controls.MaintenanceType.touched && recordForm.controls.MaintenanceType.hasError('required')) {
+            <span class="field-error">Ingresa el tipo de mantenimiento.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="maintenanceDate">Fecha y hora <span class="required">*</span></label>
+          <input id="maintenanceDate" type="datetime-local" formControlName="MaintenanceDate" />
+          @if (recordForm.controls.MaintenanceDate.touched && recordForm.controls.MaintenanceDate.invalid) {
+            <span class="field-error">Selecciona la fecha y hora.</span>
+          }
+        </div>
+
+        <div class="field field-wide">
+          <label for="description">Descripción del trabajo <span class="required">*</span></label>
+          <textarea id="description" formControlName="Description" rows="4" placeholder="Describe las tareas realizadas, piezas reemplazadas u observaciones…"></textarea>
+          @if (recordForm.controls.Description.touched && recordForm.controls.Description.hasError('required')) {
+            <span class="field-error">Agrega una descripción del trabajo realizado.</span>
+          }
+          @if (recordForm.controls.Description.touched && recordForm.controls.Description.hasError('maxlength')) {
+            <span class="field-error">La descripción no puede superar 1000 caracteres.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="cost">Costo <span class="required">*</span></label>
+          <div class="input-with-prefix">
+            <span>S/</span>
+            <input id="cost" type="number" formControlName="Cost" min="0" step="0.01" />
+          </div>
+          @if (recordForm.controls.Cost.touched && recordForm.controls.Cost.invalid) {
+            <span class="field-error">Ingresa un costo igual o mayor a cero.</span>
+          }
+        </div>
+      </div>
+
+      @if (isLoadingOptions) {
+        <div class="feedback info" role="status">Cargando máquinas y usuarios…</div>
+      }
+      @if (successMessage) {
+        <div class="feedback success" role="status">{{ successMessage }}</div>
+      }
+      @if (errorMessage) {
+        <div class="feedback error" role="alert">{{ errorMessage }}</div>
+      }
+
+      <footer class="form-footer">
+        <p><span class="required">*</span> Campos obligatorios</p>
+        <button type="submit" [disabled]="isSaving || isLoadingOptions || machines.length === 0 || users.length === 0">
+          @if (isSaving) {
+            Guardando…
+          } @else {
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            Registrar mantenimiento
+          }
+        </button>
+      </footer>
+    </form>
+  </section>
+
+</main>

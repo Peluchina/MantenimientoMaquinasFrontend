@@ -1,0 +1,50 @@
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" routerLink="/machines" aria-label="Ir a Máquinas">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M3 21V9l9-6 9 6v12h-6v-7H9v7H3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+          <path d="M7 11h2m6 0h2M7 15h2m6 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+      </span>
+      <span class="brand-copy">
+        <strong>Mantenimiento</strong>
+        <small>Gestión de equipos</small>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a routerLink="/machines" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 20V8l4-3 4 3v12m0-8h8v8h-8m-8 0h16M7 11h2m-2 4h2m6 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>Máquinas</span>
+      </a>
+      <a routerLink="/users" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M16 20v-1.7a3.3 3.3 0 0 0-3.3-3.3H6.3A3.3 3.3 0 0 0 3 18.3V20M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6m-3-3h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>Usuarios</span>
+      </a>
+      <a routerLink="/maintenance-records" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M14.7 6.3a4.2 4.2 0 0 0-5.6 5.6L4 17v3h3l5.1-5.1a4.2 4.2 0 0 0 5.6-5.6L15 12l-3-3 2.7-2.7Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="m5 19 2-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+        <span>Mantenimientos</span>
+      </a>
+      <a routerLink="/machine-temperature-history" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M12 12v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+        <span>Temperaturas</span>
+      </a>
+    </nav>
+
+    <div class="topbar-label">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>Panel de gestión</span>
+    </div>
+  </div>
+</header>

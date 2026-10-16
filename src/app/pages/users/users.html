@@ -1,0 +1,126 @@
+<main class="page-shell">
+  <section class="form-card" aria-labelledby="page-title">
+    <header class="card-header">
+      <div class="header-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M16 20v-1.7a3.3 3.3 0 0 0-3.3-3.3H6.3A3.3 3.3 0 0 0 3 18.3V20M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6m-3-3h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div>
+        <p class="eyebrow">GESTIÓN DE ACCESOS</p>
+        <h1 id="page-title">Registrar usuario</h1>
+        <p class="subtitle">Completa la información para agregar una persona al sistema.</p>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <form [formGroup]="userForm" (ngSubmit)="submit()" novalidate>
+      <div class="section-heading">
+        <span class="section-number">01</span>
+        <div>
+          <h2>Datos personales</h2>
+          <p>Información de contacto del usuario</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="firstName">Nombres <span class="required">*</span></label>
+          <input id="firstName" type="text" formControlName="firstName" placeholder="Ej. Ana María" autocomplete="given-name" />
+          @if (userForm.controls.firstName.touched && userForm.controls.firstName.hasError('required')) {
+            <span class="field-error">Ingresa los nombres.</span>
+          }
+          @if (userForm.controls.firstName.touched && userForm.controls.firstName.hasError('maxlength')) {
+            <span class="field-error">El nombre no puede superar 80 caracteres.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="lastName">Apellidos <span class="required">*</span></label>
+          <input id="lastName" type="text" formControlName="LastName" placeholder="Ej. Torres Díaz" autocomplete="family-name" />
+          @if (userForm.controls.LastName.touched && userForm.controls.LastName.hasError('required')) {
+            <span class="field-error">Ingresa los apellidos.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="username">Nombre de usuario <span class="required">*</span></label>
+          <input id="username" type="text" formControlName="username" placeholder="Ej. ana.torres" autocomplete="username" />
+          @if (userForm.controls.username.touched && userForm.controls.username.hasError('required')) {
+            <span class="field-error">Ingresa un nombre de usuario.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="email">Correo electrónico <span class="required">*</span></label>
+          <input id="email" type="email" formControlName="email" placeholder="nombre@empresa.com" autocomplete="email" />
+          @if (userForm.controls.email.touched && userForm.controls.email.hasError('required')) {
+            <span class="field-error">Ingresa el correo electrónico.</span>
+          }
+          @if (userForm.controls.email.touched && userForm.controls.email.hasError('email')) {
+            <span class="field-error">Ingresa un correo electrónico válido.</span>
+          }
+        </div>
+      </div>
+
+      <div class="section-heading section-heading-spaced">
+        <span class="section-number">02</span>
+        <div>
+          <h2>Acceso y estado</h2>
+          <p>Asigna un rol y define el estado de la cuenta</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="roleId">ID del rol <span class="required">*</span></label>
+          <input id="roleId" type="number" formControlName="roleId" min="1" step="1" />
+          @if (userForm.controls.roleId.touched && userForm.controls.roleId.invalid) {
+            <span class="field-error">Ingresa un ID de rol válido.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="roleName">Nombre del rol <span class="required">*</span></label>
+          <input id="roleName" type="text" formControlName="RoleName" placeholder="Ej. Administrador" />
+          @if (userForm.controls.RoleName.touched && userForm.controls.RoleName.hasError('required')) {
+            <span class="field-error">Ingresa el nombre del rol.</span>
+          }
+        </div>
+
+        <div class="field field-wide">
+          <label for="userStatus">Estado de la cuenta <span class="required">*</span></label>
+          <select id="userStatus" formControlName="userStatus">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+      </div>
+
+      @if (successMessage) {
+        <div class="feedback success" role="status">{{ successMessage }}</div>
+      }
+      @if (errorMessage) {
+        <div class="feedback error" role="alert">{{ errorMessage }}</div>
+      }
+
+      <footer class="form-footer">
+        <p><span class="required">*</span> Campos obligatorios</p>
+        <button type="submit" [disabled]="isSaving">
+          @if (isSaving) {
+            <span class="spinner" aria-hidden="true"></span>
+            Guardando…
+          } @else {
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            Registrar usuario
+          }
+        </button>
+      </footer>
+    </form>
+  </section>
+
+  <p class="page-note">La fecha de creación se asignará automáticamente al guardar.</p>
+</main>

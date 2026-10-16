@@ -1,0 +1,120 @@
+<main class="page-shell">
+  <section class="form-card" aria-labelledby="page-title">
+    <header class="card-header">
+      <div class="header-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M14.7 6.3a4.2 4.2 0 0 0-5.6 5.6L4 17v3h3l5.1-5.1a4.2 4.2 0 0 0 5.6-5.6L15 12l-3-3 2.7-2.7Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="m5 19 2-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div>
+        <p class="eyebrow">GESTIÓN DE EQUIPOS</p>
+        <h1 id="page-title">Registrar máquina</h1>
+        <p class="subtitle">Completa los datos para agregar un equipo al sistema.</p>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <form [formGroup]="machineForm" (ngSubmit)="submit()" novalidate>
+      <div class="section-heading">
+        <span class="section-number">01</span>
+        <div>
+          <h2>Información del equipo</h2>
+          <p>Identificación y estado de la máquina</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field field-wide">
+          <label for="machineName">Nombre de la máquina <span class="required">*</span></label>
+          <input id="machineName" type="text" formControlName="machineName" placeholder="Ej. Compresor principal" autocomplete="off" />
+          @if (machineForm.controls.machineName.touched && machineForm.controls.machineName.hasError('required')) {
+            <span class="field-error">Ingresa el nombre de la máquina.</span>
+          }
+          @if (machineForm.controls.machineName.touched && machineForm.controls.machineName.hasError('maxlength')) {
+            <span class="field-error">El nombre no puede superar 100 caracteres.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="brand">Marca <span class="required">*</span></label>
+          <input id="brand" type="text" formControlName="Brand" placeholder="Ej. Siemens" autocomplete="organization" />
+          @if (machineForm.controls.Brand.touched && machineForm.controls.Brand.hasError('required')) {
+            <span class="field-error">Ingresa la marca del equipo.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="machineStatus">Estado <span class="required">*</span></label>
+          <select id="machineStatus" formControlName="MachineStatus">
+            <option value="Operativa">Operativa</option>
+            <option value="Mantenimiento">En mantenimiento</option>
+            <option value="Fuera de servicio">Fuera de servicio</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-heading section-heading-spaced">
+        <span class="section-number">02</span>
+        <div>
+          <h2>Registro de temperatura</h2>
+          <p>Lectura actual y límite recomendado</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="currentTemperature">Temperatura actual <span class="required">*</span></label>
+          <div class="input-with-suffix">
+            <input id="currentTemperature" type="number" formControlName="CurrentTemperature" step="0.1" />
+            <span>°C</span>
+          </div>
+          @if (machineForm.controls.CurrentTemperature.touched && machineForm.controls.CurrentTemperature.invalid) {
+            <span class="field-error">Ingresa una temperatura entre −100 y 500 °C.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="maxTemperature">Temperatura máxima <span class="required">*</span></label>
+          <div class="input-with-suffix">
+            <input id="maxTemperature" type="number" formControlName="MaxTemperature" step="0.1" />
+            <span>°C</span>
+          </div>
+          @if (machineForm.controls.MaxTemperature.touched && machineForm.controls.MaxTemperature.invalid) {
+            <span class="field-error">Ingresa un límite entre −100 y 500 °C.</span>
+          }
+        </div>
+
+        <div class="field field-wide">
+          <label for="dateTime">Fecha y hora del registro <span class="required">*</span></label>
+          <input id="dateTime" type="datetime-local" formControlName="DateTime" />
+        </div>
+      </div>
+
+      @if (successMessage) {
+        <div class="feedback success" role="status">{{ successMessage }}</div>
+      }
+      @if (errorMessage) {
+        <div class="feedback error" role="alert">{{ errorMessage }}</div>
+      }
+
+      <footer class="form-footer">
+        <p><span class="required">*</span> Campos obligatorios</p>
+        <button type="submit" [disabled]="isSaving">
+          @if (isSaving) {
+            <span class="spinner" aria-hidden="true"></span>
+            Guardando…
+          } @else {
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            Registrar máquina
+          }
+        </button>
+      </footer>
+    </form>
+  </section>
+
+  <p class="page-note">Los datos se guardarán en el registro de mantenimiento de equipos.</p>
+</main>

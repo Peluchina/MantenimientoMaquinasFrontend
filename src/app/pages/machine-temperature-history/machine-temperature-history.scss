@@ -1,0 +1,129 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #172b4d;
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 56px 24px 36px;
+  background: radial-gradient(ellipse at 8% 4%, rgba(255, 237, 213, .68), transparent 34%), #f5f7fb;
+}
+
+.form-card {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 36px 40px 28px;
+  border: 1px solid #e7ebf2;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(27, 48, 79, .08);
+}
+
+.card-header { display: flex; align-items: center; gap: 18px; }
+
+.header-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  place-items: center;
+  border-radius: 15px;
+  color: #c66a12;
+  background: #fff4e8;
+}
+
+.header-icon svg { width: 27px; height: 27px; }
+.eyebrow { margin: 0 0 7px; color: #947451; font-size: 10px; font-weight: 750; letter-spacing: .13em; }
+h1, h2, p { margin-top: 0; }
+h1 { margin-bottom: 6px; color: #172b4d; font-size: clamp(23px, 4vw, 28px); font-weight: 700; letter-spacing: -.04em; }
+.subtitle { margin-bottom: 0; color: #73829a; font-size: 13px; line-height: 1.5; }
+.divider { height: 1px; margin: 30px 0 28px; background: #edf0f5; }
+.section-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 19px; }
+
+.section-number {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  border-radius: 10px;
+  color: #b9610e;
+  background: #fff4e8;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.section-heading h2 { margin-bottom: 3px; color: #253957; font-size: 14px; font-weight: 700; }
+.section-heading p { margin-bottom: 0; color: #8a97aa; font-size: 11px; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; }
+.field { min-width: 0; }
+
+label { display: block; margin-bottom: 7px; color: #374b68; font-size: 12px; font-weight: 650; }
+.required { color: #e25454; }
+
+input, select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 43px;
+  padding: 0 12px;
+  border: 1px solid #dfe5ee;
+  border-radius: 8px;
+  outline: none;
+  color: #273b59;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+input:focus, select:focus { border-color: #e8a252; box-shadow: 0 0 0 3px rgba(198, 106, 18, .12); }
+input::placeholder { color: #a5afbd; }
+.input-with-suffix { position: relative; }
+.input-with-suffix input { padding-right: 45px; }
+.input-with-suffix span { position: absolute; top: 50%; right: 13px; transform: translateY(-50%); color: #7b8aa0; font-size: 12px; pointer-events: none; }
+.field-error, .field-hint { display: block; margin-top: 6px; font-size: 11px; }
+.field-error { color: #c44040; }
+.field-hint { color: #8290a3; }
+.feedback { margin-top: 20px; padding: 11px 13px; border-radius: 8px; font-size: 12px; }
+.feedback.info { color: #416078; background: #eef6fa; }
+.feedback.success { color: #187044; background: #eaf8f0; }
+.feedback.error { color: #a93636; background: #fff0f0; }
+
+.form-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 28px; padding-top: 21px; border-top: 1px solid #edf0f5; }
+.form-footer p { margin-bottom: 0; color: #8995a7; font-size: 11px; }
+
+button {
+  display: inline-flex;
+  min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 17px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: #c66a12;
+  box-shadow: 0 5px 12px rgba(198, 106, 18, .2);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+button:hover:not(:disabled) { transform: translateY(-1px); background: #a9560c; }
+button:focus-visible { outline: 3px solid rgba(198, 106, 18, .28); outline-offset: 3px; }
+button:disabled { cursor: wait; opacity: .65; }
+button svg { width: 17px; height: 17px; }
+
+@media (max-width: 600px) {
+  .page-shell { padding: 24px 14px; }
+  .form-card { padding: 25px 20px 21px; border-radius: 14px; }
+  .card-header { align-items: flex-start; gap: 13px; }
+  .header-icon { width: 44px; height: 44px; flex-basis: 44px; border-radius: 12px; }
+  .form-grid { grid-template-columns: 1fr; gap: 15px; }
+  .form-footer { align-items: stretch; flex-direction: column; }
+  .form-footer button { width: 100%; }
+}

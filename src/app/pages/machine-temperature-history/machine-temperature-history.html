@@ -1,0 +1,106 @@
+<main class="page-shell">
+  <section class="form-card" aria-labelledby="page-title">
+    <header class="card-header">
+      <div class="header-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M12 12v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div>
+        <p class="eyebrow">MONITOREO DE EQUIPOS</p>
+        <h1 id="page-title">Registrar temperatura</h1>
+        <p class="subtitle">Añade una lectura al historial de temperatura de una máquina.</p>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <form [formGroup]="historyForm" (ngSubmit)="submit()" novalidate>
+      <div class="section-heading">
+        <span class="section-number">01</span>
+        <div>
+          <h2>Lectura del equipo</h2>
+          <p>Selecciona el equipo y registra la temperatura medida</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="machineId">Máquina <span class="required">*</span></label>
+          <select id="machineId" formControlName="MachineId">
+            <option [ngValue]="0">Selecciona una máquina</option>
+            @for (machine of machines; track machine.machineId) {
+              <option [ngValue]="machine.machineId">{{ machine.machineName }}</option>
+            }
+          </select>
+          @if (!isLoadingOptions && machines.length === 0) {
+            <span class="field-hint">Primero registra una máquina.</span>
+          }
+          @if (historyForm.controls.MachineId.touched && historyForm.controls.MachineId.invalid) {
+            <span class="field-error">Selecciona una máquina.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="userId">Registrado por <span class="required">*</span></label>
+          <select id="userId" formControlName="UserId">
+            <option [ngValue]="0">Selecciona un usuario</option>
+            @for (user of users; track user.userId) {
+              <option [ngValue]="user.userId">{{ user.firstName }} {{ user.LastName }} · {{ user.username }}</option>
+            }
+          </select>
+          @if (!isLoadingOptions && users.length === 0) {
+            <span class="field-hint">Primero registra un usuario.</span>
+          }
+          @if (historyForm.controls.UserId.touched && historyForm.controls.UserId.invalid) {
+            <span class="field-error">Selecciona un usuario.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="temperature">Temperatura medida <span class="required">*</span></label>
+          <div class="input-with-suffix">
+            <input id="temperature" type="number" formControlName="Temperature" step="0.1" />
+            <span>°C</span>
+          </div>
+          @if (historyForm.controls.Temperature.touched && historyForm.controls.Temperature.invalid) {
+            <span class="field-error">Ingresa una temperatura entre −100 y 500 °C.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="recordedAt">Fecha y hora de lectura <span class="required">*</span></label>
+          <input id="recordedAt" type="datetime-local" formControlName="RecordedAt" />
+          @if (historyForm.controls.RecordedAt.touched && historyForm.controls.RecordedAt.invalid) {
+            <span class="field-error">Selecciona la fecha y hora.</span>
+          }
+        </div>
+      </div>
+
+      @if (isLoadingOptions) {
+        <div class="feedback info" role="status">Cargando máquinas y usuarios…</div>
+      }
+      @if (successMessage) {
+        <div class="feedback success" role="status">{{ successMessage }}</div>
+      }
+      @if (errorMessage) {
+        <div class="feedback error" role="alert">{{ errorMessage }}</div>
+      }
+
+      <footer class="form-footer">
+        <p><span class="required">*</span> Campos obligatorios</p>
+        <button type="submit" [disabled]="isSaving || isLoadingOptions || machines.length === 0 || users.length === 0">
+          @if (isSaving) {
+            Guardando…
+          } @else {
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            Registrar lectura
+          }
+        </button>
+      </footer>
+    </form>
+  </section>
+</main>
