@@ -9,14 +9,14 @@ import { MachineTemperatureHistory, MachineTemperatureHistoryRequest } from "../
   })
 
   export class MachineTemperatureHistoryService{
-    private apiUrl = '/api/MachineTemperatureHistory';
+    private apiUrl = '/api/machines';
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<MachineTemperatureHistory[]> {
-    return this.http.get<MachineTemperatureHistory[]>(this.apiUrl);
+  getAll(machineId: number): Observable<MachineTemperatureHistory[]> {
+    return this.http.get<MachineTemperatureHistory[]>(`${this.apiUrl}/${machineId}/temperatures`);
   }
 
-  create(machineTemperatureHistory: MachineTemperatureHistoryRequest): Observable<any> {
-    return this.http.post(this.apiUrl, machineTemperatureHistory);
+  create(machineId: number, machineTemperatureHistory: MachineTemperatureHistoryRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${machineId}/temperatures`, machineTemperatureHistory);
   }
 }

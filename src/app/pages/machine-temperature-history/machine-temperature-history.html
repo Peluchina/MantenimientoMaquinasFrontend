@@ -10,7 +10,7 @@
       <div>
         <p class="eyebrow">MONITOREO DE EQUIPOS</p>
         <h1 id="page-title">Registrar temperatura</h1>
-        <p class="subtitle">Añade una lectura al historial de temperatura de una máquina.</p>
+        <p class="subtitle">Añade una lectura al historial; la fecha se registra automáticamente.</p>
       </div>
     </header>
 
@@ -47,7 +47,7 @@
           <select id="userId" formControlName="UserId">
             <option [ngValue]="0">Selecciona un usuario</option>
             @for (user of users; track user.userId) {
-              <option [ngValue]="user.userId">{{ user.firstName }} {{ user.LastName }} · {{ user.username }}</option>
+              <option [ngValue]="user.userId">{{ user.firstName }} {{ user.lastName }} · {{ user.username }}</option>
             }
           </select>
           @if (!isLoadingOptions && users.length === 0) {
@@ -61,19 +61,11 @@
         <div class="field">
           <label for="temperature">Temperatura medida <span class="required">*</span></label>
           <div class="input-with-suffix">
-            <input id="temperature" type="number" formControlName="Temperature" step="0.1" />
+            <input id="temperature" type="number" formControlName="Temperature" min="0" max="9999.99" step="0.01" />
             <span>°C</span>
           </div>
           @if (historyForm.controls.Temperature.touched && historyForm.controls.Temperature.invalid) {
-            <span class="field-error">Ingresa una temperatura entre −100 y 500 °C.</span>
-          }
-        </div>
-
-        <div class="field">
-          <label for="recordedAt">Fecha y hora de lectura <span class="required">*</span></label>
-          <input id="recordedAt" type="datetime-local" formControlName="RecordedAt" />
-          @if (historyForm.controls.RecordedAt.touched && historyForm.controls.RecordedAt.invalid) {
-            <span class="field-error">Selecciona la fecha y hora.</span>
+            <span class="field-error">Ingresa una temperatura entre 0 y 9999.99 °C.</span>
           }
         </div>
       </div>

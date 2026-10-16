@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MachinesService } from '../../services/machines.service';
+import { apiErrorMessage } from '../../services/api-error-message';
 
 @Component({
   selector: 'app-machines',
@@ -14,11 +15,11 @@ export class Machines {
 
   readonly machineForm = this.formBuilder.nonNullable.group({
     machineName: ['', [Validators.required, Validators.maxLength(100)]],
-    Brand: ['', [Validators.required, Validators.maxLength(80)]],
-    CurrentTemperature: [0, [Validators.required, Validators.min(-100), Validators.max(500)]],
-    MaxTemperature: [100, [Validators.required, Validators.min(-100), Validators.max(500)]],
-    DateTime: [this.getLocalDateTime(), Validators.required],
-    MachineStatus: ['Operativa', Validators.required],
+    Brand: ['', [Validators.required, Validators.maxLength(100)]],
+    CurrentTemperature: [0, [Validators.required, Validators.min(0), Validators.max(9999.99)]],
+    MaxTemperature: [100, [Validators.required, Validators.min(0.01), Validators.max(9999.99)]],
+    LastMaintenanceDate: [''],
+    MachineStatus: ['OPERATIVA', Validators.required],
   });
 
   isSaving = false;
@@ -38,8 +39,14 @@ export class Machines {
     this.isSaving = true;
 
     this.machinesService.create({
-      ...values,
-      DateTime: new Date(values.DateTime).toISOString(),
+      MachineName: values.machineName,
+      Brand: values.Brand,
+      CurrentTemperature: values.CurrentTemperature,
+      MaxTemperature: values.MaxTemperature,
+      MachineStatus: values.MachineStatus,
+      LastMaintenanceDate: values.LastMaintenanceDate
+        ? new Date(values.LastMaintenanceDate).toISOString()
+        : null,
     }).subscribe({
       next: () => {
         this.isSaving = false;
@@ -49,20 +56,15 @@ export class Machines {
           Brand: '',
           CurrentTemperature: 0,
           MaxTemperature: 100,
-          DateTime: this.getLocalDateTime(),
-          MachineStatus: 'Operativa',
+          LastMaintenanceDate: '',
+          MachineStatus: 'OPERATIVA',
         });
       },
-      error: () => {
+      error: (error: unknown) => {
         this.isSaving = false;
-        this.errorMessage = 'No se pudo registrar la máquina. Inténtalo nuevamente.';
+        this.errorMessage = apiErrorMessage(error, 'No se pudo registrar la máquina.');
       },
     });
   }
 
-  private getLocalDateTime(): string {
-    const now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    return now.toISOString().slice(0, 16);
-  }
 }

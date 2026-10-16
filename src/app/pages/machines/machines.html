@@ -43,14 +43,18 @@
           @if (machineForm.controls.Brand.touched && machineForm.controls.Brand.hasError('required')) {
             <span class="field-error">Ingresa la marca del equipo.</span>
           }
+          @if (machineForm.controls.Brand.touched && machineForm.controls.Brand.hasError('maxlength')) {
+            <span class="field-error">La marca no puede superar 100 caracteres.</span>
+          }
         </div>
 
         <div class="field">
           <label for="machineStatus">Estado <span class="required">*</span></label>
           <select id="machineStatus" formControlName="MachineStatus">
-            <option value="Operativa">Operativa</option>
-            <option value="Mantenimiento">En mantenimiento</option>
-            <option value="Fuera de servicio">Fuera de servicio</option>
+            <option value="OPERATIVA">Operativa</option>
+            <option value="MANTENIMIENTO">En mantenimiento</option>
+            <option value="INACTIVA">Inactiva</option>
+            <option value="FALLA">Falla</option>
           </select>
         </div>
       </div>
@@ -67,28 +71,28 @@
         <div class="field">
           <label for="currentTemperature">Temperatura actual <span class="required">*</span></label>
           <div class="input-with-suffix">
-            <input id="currentTemperature" type="number" formControlName="CurrentTemperature" step="0.1" />
+            <input id="currentTemperature" type="number" formControlName="CurrentTemperature" min="0" max="9999.99" step="0.01" />
             <span>°C</span>
           </div>
           @if (machineForm.controls.CurrentTemperature.touched && machineForm.controls.CurrentTemperature.invalid) {
-            <span class="field-error">Ingresa una temperatura entre −100 y 500 °C.</span>
+            <span class="field-error">Ingresa una temperatura entre 0 y 9999.99 °C.</span>
           }
         </div>
 
         <div class="field">
           <label for="maxTemperature">Temperatura máxima <span class="required">*</span></label>
           <div class="input-with-suffix">
-            <input id="maxTemperature" type="number" formControlName="MaxTemperature" step="0.1" />
+            <input id="maxTemperature" type="number" formControlName="MaxTemperature" min="0.01" max="9999.99" step="0.01" />
             <span>°C</span>
           </div>
           @if (machineForm.controls.MaxTemperature.touched && machineForm.controls.MaxTemperature.invalid) {
-            <span class="field-error">Ingresa un límite entre −100 y 500 °C.</span>
+            <span class="field-error">Ingresa un límite mayor que 0 y hasta 9999.99 °C.</span>
           }
         </div>
 
         <div class="field field-wide">
-          <label for="dateTime">Fecha y hora del registro <span class="required">*</span></label>
-          <input id="dateTime" type="datetime-local" formControlName="DateTime" />
+          <label for="lastMaintenanceDate">Último mantenimiento</label>
+          <input id="lastMaintenanceDate" type="datetime-local" formControlName="LastMaintenanceDate" />
         </div>
       </div>
 

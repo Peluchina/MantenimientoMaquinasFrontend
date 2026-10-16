@@ -1,11 +1,18 @@
-export interface Machines{
-    machineId:number;
-    machineName: string;
-    Brand: string;
-    CurrentTemperature: number;
-    MaxTemperature: number;
-    DateTime: string;
-    MachineStatus:string;
+export interface Machines {
+  machineId: number;
+  machineName: string;
+  brand: string;
+  currentTemperature: number;
+  maxTemperature: number;
+  lastMaintenanceDate: string | null;
+  machineStatus: string;
 }
 
-export type MachinesRequest = Omit<Machines, 'machineId'>;
+export interface MachinesRequest {
+  MachineName: string;
+  Brand: string;
+  CurrentTemperature: number;
+  MaxTemperature: number;
+  MachineStatus: string;
+  LastMaintenanceDate: string | null;
+}

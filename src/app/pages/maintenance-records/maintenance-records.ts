@@ -6,6 +6,7 @@ import { Users as User } from '../../models/users.models';
 import { MachinesService } from '../../services/machines.service';
 import { MaintenanceRecordsService } from '../../services/maintenanceRecords.service';
 import { UsersService } from '../../services/users.service';
+import { apiErrorMessage } from '../../services/api-error-message';
 
 @Component({
   selector: 'app-maintenance-records',
@@ -30,8 +31,8 @@ export class MaintenanceRecords implements OnInit {
     MachineId: [0, [Validators.required, Validators.min(1)]],
     UserId: [0, [Validators.required, Validators.min(1)]],
     MaintenanceDate: [this.getLocalDateTime(), Validators.required],
-    MaintenanceType: ['', [Validators.required, Validators.maxLength(80)]],
-    Description: ['', [Validators.required, Validators.maxLength(1000)]],
+    MaintenanceType: ['', [Validators.required, Validators.maxLength(50)]],
+    Description: ['', [Validators.required, Validators.maxLength(500)]],
     Cost: [0, [Validators.required, Validators.min(0)]],
   });
 
@@ -42,12 +43,12 @@ export class MaintenanceRecords implements OnInit {
     }).subscribe({
       next: ({ machines, users }) => {
         this.machines = machines;
-        this.users = users;
+        this.users = users.filter((user) => user.userStatus?.toUpperCase() === 'ACTIVO');
         this.isLoadingOptions = false;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.isLoadingOptions = false;
-        this.errorMessage = 'No se pudieron cargar las máquinas y los usuarios.';
+        this.errorMessage = apiErrorMessage(error, 'No se pudieron cargar las máquinas y los usuarios.');
       },
     });
   }
@@ -71,10 +72,11 @@ export class MaintenanceRecords implements OnInit {
     }
 
     this.isSaving = true;
-    this.recordsService.create({
-      ...values,
-      MachineName: machine.machineName,
-      Responsible: `${user.firstName} ${user.LastName}`.trim(),
+    this.recordsService.create(machine.machineId, {
+      UserId: user.userId,
+      MaintenanceType: values.MaintenanceType,
+      Description: values.Description,
+      Cost: values.Cost,
       MaintenanceDate: new Date(values.MaintenanceDate).toISOString(),
     }).subscribe({
       next: () => {
@@ -89,9 +91,9 @@ export class MaintenanceRecords implements OnInit {
           Cost: 0,
         });
       },
-      error: () => {
+      error: (error: unknown) => {
         this.isSaving = false;
-        this.errorMessage = 'No se pudo guardar el mantenimiento. Inténtalo nuevamente.';
+        this.errorMessage = apiErrorMessage(error, 'No se pudo guardar el mantenimiento.');
       },
     });
   }

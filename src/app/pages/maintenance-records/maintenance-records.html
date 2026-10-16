@@ -47,7 +47,7 @@
           <select id="userId" formControlName="UserId">
             <option [ngValue]="0">Selecciona un responsable</option>
             @for (user of users; track user.userId) {
-              <option [ngValue]="user.userId">{{ user.firstName }} {{ user.LastName }} · {{ user.username }}</option>
+              <option [ngValue]="user.userId">{{ user.firstName }} {{ user.lastName }} · {{ user.username }}</option>
             }
           </select>
           @if (!isLoadingOptions && users.length === 0) {
@@ -74,6 +74,9 @@
           @if (recordForm.controls.MaintenanceType.touched && recordForm.controls.MaintenanceType.hasError('required')) {
             <span class="field-error">Ingresa el tipo de mantenimiento.</span>
           }
+          @if (recordForm.controls.MaintenanceType.touched && recordForm.controls.MaintenanceType.hasError('maxlength')) {
+            <span class="field-error">El tipo no puede superar 50 caracteres.</span>
+          }
         </div>
 
         <div class="field">
@@ -91,7 +94,7 @@
             <span class="field-error">Agrega una descripción del trabajo realizado.</span>
           }
           @if (recordForm.controls.Description.touched && recordForm.controls.Description.hasError('maxlength')) {
-            <span class="field-error">La descripción no puede superar 1000 caracteres.</span>
+            <span class="field-error">La descripción no puede superar 500 caracteres.</span>
           }
         </div>
 

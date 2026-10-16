@@ -27,12 +27,12 @@
       <div class="form-grid">
         <div class="field">
           <label for="firstName">Nombres <span class="required">*</span></label>
-          <input id="firstName" type="text" formControlName="firstName" placeholder="Ej. Ana María" autocomplete="given-name" />
-          @if (userForm.controls.firstName.touched && userForm.controls.firstName.hasError('required')) {
+          <input id="firstName" type="text" formControlName="FirstName" placeholder="Ej. Ana María" autocomplete="given-name" />
+          @if (userForm.controls.FirstName.touched && userForm.controls.FirstName.hasError('required')) {
             <span class="field-error">Ingresa los nombres.</span>
           }
-          @if (userForm.controls.firstName.touched && userForm.controls.firstName.hasError('maxlength')) {
-            <span class="field-error">El nombre no puede superar 80 caracteres.</span>
+          @if (userForm.controls.FirstName.touched && userForm.controls.FirstName.hasError('maxlength')) {
+            <span class="field-error">El nombre no puede superar 100 caracteres.</span>
           }
         </div>
 
@@ -46,19 +46,22 @@
 
         <div class="field">
           <label for="username">Nombre de usuario <span class="required">*</span></label>
-          <input id="username" type="text" formControlName="username" placeholder="Ej. ana.torres" autocomplete="username" />
-          @if (userForm.controls.username.touched && userForm.controls.username.hasError('required')) {
+          <input id="username" type="text" formControlName="Username" placeholder="Ej. ana.torres" autocomplete="username" />
+          @if (userForm.controls.Username.touched && userForm.controls.Username.hasError('required')) {
             <span class="field-error">Ingresa un nombre de usuario.</span>
+          }
+          @if (userForm.controls.Username.touched && userForm.controls.Username.hasError('maxlength')) {
+            <span class="field-error">El usuario no puede superar 50 caracteres.</span>
           }
         </div>
 
         <div class="field">
           <label for="email">Correo electrónico <span class="required">*</span></label>
-          <input id="email" type="email" formControlName="email" placeholder="nombre@empresa.com" autocomplete="email" />
-          @if (userForm.controls.email.touched && userForm.controls.email.hasError('required')) {
+          <input id="email" type="email" formControlName="Email" placeholder="nombre@empresa.com" autocomplete="email" />
+          @if (userForm.controls.Email.touched && userForm.controls.Email.hasError('required')) {
             <span class="field-error">Ingresa el correo electrónico.</span>
           }
-          @if (userForm.controls.email.touched && userForm.controls.email.hasError('email')) {
+          @if (userForm.controls.Email.touched && userForm.controls.Email.hasError('email')) {
             <span class="field-error">Ingresa un correo electrónico válido.</span>
           }
         </div>
@@ -67,35 +70,42 @@
       <div class="section-heading section-heading-spaced">
         <span class="section-number">02</span>
         <div>
-          <h2>Acceso y estado</h2>
-          <p>Asigna un rol y define el estado de la cuenta</p>
+          <h2>Acceso</h2>
+          <p>Selecciona un rol válido y define una contraseña segura</p>
         </div>
       </div>
 
       <div class="form-grid">
         <div class="field">
-          <label for="roleId">ID del rol <span class="required">*</span></label>
-          <input id="roleId" type="number" formControlName="roleId" min="1" step="1" />
-          @if (userForm.controls.roleId.touched && userForm.controls.roleId.invalid) {
-            <span class="field-error">Ingresa un ID de rol válido.</span>
+          <label for="roleId">Rol <span class="required">*</span></label>
+          <select id="roleId" formControlName="RoleId">
+            <option [ngValue]="0">Selecciona un rol</option>
+            @for (role of roles; track role.roleId) {
+              <option [ngValue]="role.roleId">{{ role.roleName }}</option>
+            }
+          </select>
+          @if (userForm.controls.RoleId.touched && userForm.controls.RoleId.invalid) {
+            <span class="field-error">Selecciona un rol válido.</span>
           }
         </div>
 
         <div class="field">
-          <label for="roleName">Nombre del rol <span class="required">*</span></label>
-          <input id="roleName" type="text" formControlName="RoleName" placeholder="Ej. Administrador" />
-          @if (userForm.controls.RoleName.touched && userForm.controls.RoleName.hasError('required')) {
-            <span class="field-error">Ingresa el nombre del rol.</span>
+          <label for="password">Contraseña <span class="required">*</span></label>
+          <input id="password" type="password" formControlName="Password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
+          @if (userForm.controls.Password.touched && userForm.controls.Password.hasError('required')) {
+            <span class="field-error">Ingresa una contraseña.</span>
+          }
+          @if (userForm.controls.Password.touched && userForm.controls.Password.hasError('minlength')) {
+            <span class="field-error">La contraseña debe tener al menos 8 caracteres.</span>
+          }
+          @if (userForm.controls.Password.touched && userForm.controls.Password.hasError('maxlength')) {
+            <span class="field-error">La contraseña no puede superar 128 caracteres.</span>
           }
         </div>
 
-        <div class="field field-wide">
-          <label for="userStatus">Estado de la cuenta <span class="required">*</span></label>
-          <select id="userStatus" formControlName="userStatus">
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-          </select>
-        </div>
+        @if (isLoadingRoles) {
+          <div class="field-hint field-wide" role="status">Cargando roles…</div>
+        }
       </div>
 
       @if (successMessage) {
@@ -107,7 +117,7 @@
 
       <footer class="form-footer">
         <p><span class="required">*</span> Campos obligatorios</p>
-        <button type="submit" [disabled]="isSaving">
+        <button type="submit" [disabled]="isSaving || isLoadingRoles || roles.length === 0">
           @if (isSaving) {
             <span class="spinner" aria-hidden="true"></span>
             Guardando…

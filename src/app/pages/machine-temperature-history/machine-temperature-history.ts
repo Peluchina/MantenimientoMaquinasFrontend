@@ -6,6 +6,7 @@ import { Users as User } from '../../models/users.models';
 import { MachineTemperatureHistoryService } from '../../services/machine-temperature-history.service';
 import { MachinesService } from '../../services/machines.service';
 import { UsersService } from '../../services/users.service';
+import { apiErrorMessage } from '../../services/api-error-message';
 
 @Component({
   selector: 'app-machine-temperature-history',
@@ -29,8 +30,7 @@ export class MachineTemperatureHistory implements OnInit {
   readonly historyForm = this.formBuilder.nonNullable.group({
     MachineId: [0, [Validators.required, Validators.min(1)]],
     UserId: [0, [Validators.required, Validators.min(1)]],
-    Temperature: [0, [Validators.required, Validators.min(-100), Validators.max(500)]],
-    RecordedAt: [this.getLocalDateTime(), Validators.required],
+    Temperature: [0, [Validators.required, Validators.min(0), Validators.max(9999.99)]],
   });
 
   ngOnInit(): void {
@@ -40,12 +40,12 @@ export class MachineTemperatureHistory implements OnInit {
     }).subscribe({
       next: ({ machines, users }) => {
         this.machines = machines;
-        this.users = users;
+        this.users = users.filter((user) => user.userStatus?.toUpperCase() === 'ACTIVO');
         this.isLoadingOptions = false;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.isLoadingOptions = false;
-        this.errorMessage = 'No se pudieron cargar las máquinas y los usuarios.';
+        this.errorMessage = apiErrorMessage(error, 'No se pudieron cargar las máquinas y los usuarios.');
       },
     });
   }
@@ -62,9 +62,9 @@ export class MachineTemperatureHistory implements OnInit {
     const values = this.historyForm.getRawValue();
     this.isSaving = true;
 
-    this.historyService.create({
-      ...values,
-      RecordedAt: new Date(values.RecordedAt).toISOString(),
+    this.historyService.create(values.MachineId, {
+      UserId: values.UserId,
+      Temperature: values.Temperature,
     }).subscribe({
       next: () => {
         this.isSaving = false;
@@ -73,19 +73,13 @@ export class MachineTemperatureHistory implements OnInit {
           MachineId: 0,
           UserId: 0,
           Temperature: 0,
-          RecordedAt: this.getLocalDateTime(),
         });
       },
-      error: () => {
+      error: (error: unknown) => {
         this.isSaving = false;
-        this.errorMessage = 'No se pudo registrar la temperatura. Inténtalo nuevamente.';
+        this.errorMessage = apiErrorMessage(error, 'No se pudo registrar la temperatura.');
       },
     });
   }
 
-  private getLocalDateTime(): string {
-    const now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    return now.toISOString().slice(0, 16);
-  }
 }

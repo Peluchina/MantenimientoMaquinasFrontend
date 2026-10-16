@@ -1,12 +1,19 @@
 export interface MaintenanceRecords{
-    MaintenanceId:number;
-    MachineId:number;
-    UserId:number;
-    MachineName:string;
-    Responsible:string;
-    MaintenanceDate:string;
-    MaintenanceType:string;
-    Description:string;
-    Cost:number;
+    maintenanceId:number;
+    machineId:number;
+    userId:number;
+    machineName:string;
+    responsible:string;
+    maintenanceDate:string;
+    maintenanceType:string;
+    description:string;
+    cost:number | null;
 }
-export type MaintenanceRecordsRequest = Omit<MaintenanceRecords, 'MaintenanceId'>;
+
+export interface MaintenanceRecordsRequest {
+    UserId: number;
+    MaintenanceDate: string;
+    MaintenanceType: string;
+    Description: string;
+    Cost: number | null;
+}

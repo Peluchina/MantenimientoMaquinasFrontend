@@ -1,12 +1,20 @@
-export interface Users{
-    userId:number;
-    roleId:number;
-    username: string;
-    firstName: string;
-    LastName: string;
-    email: string;
-    userStatus:string;
-    RoleName: string;
-    CreatedAt:string;
+export interface Users {
+  userId: number;
+  roleId: number;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  userStatus: string;
+  roleName: string;
+  createdAt: string;
 }
-export type UsersRequest = Omit<Users, 'userId'>;
+
+export interface UsersRequest {
+  RoleId: number;
+  Username: string;
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Password: string;
+}

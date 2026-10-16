@@ -1,0 +1,102 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <aside class="welcome-panel">
+      <a class="brand" routerLink="/machines" aria-label="Ir al panel de gestión">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M3 21V9l9-6 9 6v12h-6v-7H9v7H3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+            <path d="M7 11h2m6 0h2M7 15h2m6 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="brand-copy"><strong>Mantenimiento</strong><small>Gestión de equipos</small></span>
+      </a>
+
+      <div class="welcome-copy">
+        <span class="eyebrow">CONTROL OPERATIVO</span>
+        <h2>Todo tu mantenimiento, en un solo lugar.</h2>
+        <p>Accede al estado de tus máquinas, registros de servicio y lecturas de temperatura.</p>
+      </div>
+
+      <div class="machine-illustration" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="machine-card">
+          <div class="machine-top"><span></span><span></span><span></span><i>EN LÍNEA</i></div>
+          <div class="machine-body">
+            <div class="gauge"><span>72°</span><small>TEMPERATURA</small><b></b></div>
+            <div class="machine-core"><div class="core-ring"><span></span></div><div class="core-lines"><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="machine-footer"><span>UNIDAD INDUSTRIAL</span><strong>MM-2048</strong></div>
+        </div>
+        <span class="spark spark-one"></span><span class="spark spark-two"></span><span class="spark spark-three"></span>
+      </div>
+
+      <div class="welcome-footer"><span class="footer-line"></span><span>Plataforma de mantenimiento</span></div>
+    </aside>
+
+    <section class="form-panel">
+      <div class="form-content">
+        <div class="mobile-brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21V9l9-6 9 6v12h-6v-7H9v7H3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7 11h2m6 0h2M7 15h2m6 0h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </span>
+          <strong>Mantenimiento</strong>
+        </div>
+
+        <div class="form-heading">
+          <span class="heading-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 5 6v5c0 4.5 2.9 8.2 7 10 4.1-1.8 7-5.5 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span>Acceso seguro</span>
+        </div>
+        <h1 id="login-title">Bienvenido</h1>
+        <p class="form-description">Ingresa tus datos para continuar al panel de gestión.</p>
+
+        <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+          <label for="username">Usuario</label>
+          <div class="input-wrap" [class.invalid]="loginForm.controls.username.touched && loginForm.controls.username.invalid">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M5 20v-1.5A4.5 4.5 0 0 1 9.5 14h5a4.5 4.5 0 0 1 4.5 4.5V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input id="username" type="text" formControlName="username" autocomplete="username" placeholder="Escribe tu usuario" />
+          </div>
+          @if (loginForm.controls.username.touched && loginForm.controls.username.hasError('required')) {
+            <span class="field-error">Ingresa tu usuario.</span>
+          }
+
+          <label class="password-label" for="password">Contraseña</label>
+          <div class="input-wrap" [class.invalid]="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <input id="password" [type]="passwordVisible ? 'text' : 'password'" formControlName="password" autocomplete="current-password" placeholder="Escribe tu contraseña" />
+            <button class="password-toggle" type="button" (click)="passwordVisible = !passwordVisible" [attr.aria-label]="passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              @if (passwordVisible) {
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3l18 18M10.6 10.7a2 2 0 0 0 2.7 2.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c5.2 0 8.5 4.8 9 7-.2.9-1 2.1-2.2 3.2M6.2 6.3C3.8 7.8 2.4 10.1 2 12c.5 2.2 3.8 7 10 7 1 0 2-.2 2.8-.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12s3.2-6 9.5-6 9.5 6 9.5 6-3.2 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg>
+              }
+            </button>
+          </div>
+          @if (loginForm.controls.password.touched && loginForm.controls.password.hasError('required')) {
+            <span class="field-error">Ingresa tu contraseña.</span>
+          }
+
+          @if (submitted && loginForm.valid) {
+            <div class="api-message" role="alert">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5m0-8h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span>El servicio todavía no tiene habilitado el inicio de sesión. Contacta al administrador de la plataforma.</span>
+            </div>
+          }
+
+          <button class="submit-button" type="submit">
+            <span>Iniciar sesión</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+
+        <div class="security-note">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.9 8.2 7 10 4.1-1.8 7-5.5 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m9.5 12 1.7 1.7 3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Tus datos se mantienen protegidos.</span>
+        </div>
+      </div>
+      <footer class="form-footer">© 2026 Mantenimiento de Máquinas</footer>
+    </section>
+  </section>
+</main>
