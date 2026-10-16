@@ -124,9 +124,12 @@
 }
 
 .login-link {
+  border: 0;
   color: #315eab;
   text-decoration: none;
   font-weight: 650;
+  background: transparent;
+  cursor: pointer;
 }
 
 .login-link:hover { color: #1e4e9c; }
