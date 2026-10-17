@@ -40,6 +40,13 @@
         </svg>
         <span>Temperaturas</span>
       </a>
+      <a routerLink="/agent" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42m0-12.72-1.42 1.42m-9.88 9.88-1.42 1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" stroke="currentColor" stroke-width="1.7" />
+        </svg>
+        <span>Asistente</span>
+      </a>
     </nav>
 
     @if (auth.isAuthenticated()) {

@@ -1,0 +1,63 @@
+<main class="agent-page">
+  <section class="assistant-card" aria-label="Asistente de mantenimiento">
+    <header class="assistant-header">
+      <span class="assistant-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42m0-12.72-1.42 1.42m-9.88 9.88-1.42 1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" stroke="currentColor" stroke-width="1.7" />
+        </svg>
+      </span>
+      <div>
+        <p class="eyebrow">ASISTENTE INTELIGENTE</p>
+        <h1>Consulta tus máquinas</h1>
+        <p class="subtitle">Pregunta sobre mantenimiento y estado de tus equipos.</p>
+      </div>
+      <span class="online-status"><i></i> Disponible</span>
+    </header>
+
+    <div class="conversation" aria-live="polite" aria-relevant="additions text">
+      @for (message of messages(); track $index) {
+        <article class="message" [class.user-message]="message.role === 'user'">
+          @if (message.role === 'assistant') {
+            <span class="avatar" aria-hidden="true">✦</span>
+          }
+          <div class="bubble">
+            <p>{{ message.text }}</p>
+          </div>
+        </article>
+      }
+      @if (isLoading()) {
+        <article class="message">
+          <span class="avatar" aria-hidden="true">✦</span>
+          <div class="bubble typing" aria-label="El asistente está respondiendo"><i></i><i></i><i></i></div>
+        </article>
+      }
+      @if (errorMessage()) {
+        <p class="error-message" role="alert">{{ errorMessage() }}</p>
+      }
+    </div>
+
+    @if (messages().length === 1) {
+      <div class="suggestions" aria-label="Preguntas sugeridas">
+        <span>Prueba preguntar</span>
+        @for (suggestion of suggestions; track suggestion) {
+          <button type="button" [disabled]="isLoading()" (click)="sendMessage(suggestion)">{{ suggestion }}</button>
+        }
+      </div>
+    }
+
+    <form class="composer" (ngSubmit)="sendMessage()">
+      <label class="sr-only" for="agent-message">Escribe tu pregunta</label>
+      <textarea #messageInput id="agent-message" name="message" [(ngModel)]="draft"
+        (keydown)="onInputKeydown($event)" [disabled]="isLoading()" rows="1" maxlength="2000"
+        placeholder="Escribe tu pregunta..." aria-label="Escribe tu pregunta"></textarea>
+      <button class="send-button" type="submit" [disabled]="isLoading() || !draft.trim()" aria-label="Enviar mensaje">
+        @if (isLoading()) { <span class="spinner" aria-hidden="true"></span> }
+        @else {
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 4 17 8-17 8 3-8-3-8Zm3 8h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        }
+      </button>
+      <small>Enter para enviar · Shift + Enter para nueva línea</small>
+    </form>
+  </section>
+</main>
